@@ -17,3 +17,14 @@ resource "aws_subnet" "subred_publica" {
     Name = "subred_publica"
   }
 }
+
+resource "aws_subnet" "subred_terraform" {
+  vpc_id                  = aws_vpc.test_vpc.id
+  cidr_block              = var.cidr_block_subnet
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone
+
+  tags = {
+    Name = "subred_terraform"
+  }
+}
