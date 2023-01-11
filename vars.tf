@@ -34,6 +34,12 @@ variable "aws_route_table" {
   default     = "rt_terraform"
 }
 
+variable "gateway_id" {
+  description = "asignando un id gateway"
+  type        = string
+  default     = "terraform"
+}
+
 variable "destination_cidr_block" {
   description = "asignando un destino a aws route"
   type        = string
