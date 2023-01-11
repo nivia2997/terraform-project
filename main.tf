@@ -37,7 +37,7 @@ resource "aws_route_table" "rt_terraform" {
 resource "aws_route" "route_terraform" {
   route_table_id         = aws_route_table.rt_terraform.id
   destination_cidr_block = var.destination_cidr_block
-  gateway_id             = aws_internet_gateway.terraform.id
+  gateway_id             = aws_internet_gateway.igw_terraform.id
 }
 
 resource "aws_route_table_association" "rt_ass_terraform" {
