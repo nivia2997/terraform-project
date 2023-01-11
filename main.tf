@@ -25,3 +25,11 @@ resource "aws_internet_gateway" "igw_test_vpc" {
     Name = var.Name_internet_gateway
   }
 }
+
+resource "aws_route_table" "rt_terraform" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  tags = {
+    Name = var.Name_internet_gateway
+  }
+}

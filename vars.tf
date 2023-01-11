@@ -27,3 +27,9 @@ variable "Name_internet_gateway" {
   type        = string
   default     = "igw_terraform"
 }
+
+variable "aws_route_table" {
+  description = "asignando un route table"
+  type        = string
+  default     = "rt_terraform"
+}
