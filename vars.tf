@@ -33,3 +33,9 @@ variable "aws_route_table" {
   type        = string
   default     = "rt_terraform"
 }
+
+variable "destination_cidr_block" {
+  description = "asignando un destino a aws route"
+  type        = string
+  default     = "0.0.0.0/0"
+}
