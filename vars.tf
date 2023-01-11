@@ -25,17 +25,5 @@ variable "availability_zone" {
 variable "Name_internet_gateway" {
   description = "asignando un internet gateway"
   type        = string
-  default     = "igw_nginx"
-}
-
-variable "aws_route_table" {
-  description = "asignando un route table"
-  type        = string
-  default     = "rt_nginx"
-}
-
-variable "destination_cidr_block" {
-  description = "asignando un destino a aws route"
-  type        = string
-  default     = "0.0.0.0/0"
+  default     = "igw_terraform"
 }
