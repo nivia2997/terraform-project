@@ -18,7 +18,7 @@ resource "aws_subnet" "subred_publica" {
   }
 }
 
-resource "aws_internet_gateway" "igw_test_vpc" {
+resource "aws_internet_gateway" "igw_terraform" {
   vpc_id = aws_vpc.test_vpc.id
 
   tags = {
