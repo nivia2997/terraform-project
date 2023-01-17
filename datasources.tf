@@ -10,5 +10,5 @@
 
 resource "aws_key_pair" "terraform_key" {
   key_name   = "terraform_key"
-  public_key = file("/home/ec2-user/.ssh/terraform_key.pub")
+  public_key = file("/home/ec2-user/.ssh/terraform_key_pub")
 }
