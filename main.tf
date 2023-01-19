@@ -1,128 +1,67 @@
-resource "aws_vpc" "test_vpc" {
-  cidr_block = var.cidr_block
+#-----------------------------
+# Define el provider de aws
+#-----------------------------
+provider "aws" {
+  region = "us-east-1"
+}
 
+data "aws_subnet" "az_a" {
+  availability_zone = "us-east-1a"
+}
+
+data "aws_subnet" "az_b" {
+  availability_zone = "us-east-1b"
+}
+
+#---------------------------------------
+#Define una instancia EC2 con AMI Ubuntu
+#---------------------------------------
+resource "aws_instance" "servidor_1" {
+  ami                    = "ami-052efd3df9dad4825"
+  instance_type          = "t2.micro"
+  subnet_id              = data.aws_subnet.az_a.id
+  vpc_security_group_ids = [aws_security_group.mi_grupo_de_seguridad.id]
+
+  // Escribimos un "here document" que es 
+  // usado durante el Cloud init
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hola terraformes soy servidor 1!" > index.html
+              nohup busybox httpd -f -p 8080 &
+              EOF
 
   tags = {
-    Name = "vpc_proyecto"
+    Name = "servidor-1"
   }
 }
 
-resource "aws_subnet" "subred_publica_a" {
-  vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = var.cidr_block_subnet_a
-  map_public_ip_on_launch = true
-  availability_zone       = var.availability_zone_a
+resource "aws_instance" "servidor_2" {
+  ami                    = "ami-052efd3df9dad4825"
+  instance_type          = "t2.micro"
+  subnet_id              = data.aws_subnet.az_b.id
+  vpc_security_group_ids = [aws_security_group.mi_grupo_de_seguridad.id]
+
+  // Escribimos un "here document" que es 
+  // usado durante el Cloud init
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hola terraformes soy servidor 2!" > index.html
+              nohup busybox httpd -f -p 8080 &
+              EOF
 
   tags = {
-    Name = "subred_publica_a"
+    Name = "servidor-2"
   }
 }
 
-resource "aws_subnet" "subred_publica_b" {
-  vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = var.cidr_block_subnet_b
-  map_public_ip_on_launch = true
-  availability_zone       = var.availability_zone_b
-
-  tags = {
-    Name = "subred_publica_b"
-  }
-}
-
-resource "aws_internet_gateway" "igw_terraform" {
-  vpc_id = aws_vpc.test_vpc.id
-
-  tags = {
-    Name = var.Name_internet_gateway
-  }
-}
-
-resource "aws_route_table" "rt_terraform" {
-  vpc_id = aws_vpc.test_vpc.id
-
-  tags = {
-    Name = var.Name_internet_gateway
-  }
-}
-
-resource "aws_route" "route_terraform" {
-  route_table_id         = aws_route_table.rt_terraform.id
-  destination_cidr_block = var.destination_cidr_block
-  gateway_id             = aws_internet_gateway.igw_terraform.id
-}
-
-resource "aws_route_table_association" "rt_ass_terraform_a" {
-  subnet_id      = aws_subnet.subred_publica_a.id
-  route_table_id = aws_route_table.rt_terraform.id
-}
-
-resource "aws_route_table_association" "rt_ass_terraform_b" {
-  subnet_id      = aws_subnet.subred_publica_b.id
-  route_table_id = aws_route_table.rt_terraform.id
-}
-
-resource "aws_security_group" "terraform_sg" {
-  name        = "terraform_sg"
-  description = "grupo de seguridad para instancias de subnet publico"
-  vpc_id      = aws_vpc.test_vpc.id
+resource "aws_security_group" "mi_grupo_de_seguridad" {
+  name = "primer_servidor_sg"
 
   ingress {
-    from_port   = var.from_port_http
-    to_port     = var.from_port_http
-    protocol    = "tcp"
-    cidr_blocks = var.ip_http
-  }
-  ingress {
-    from_port   = var.from_port_ssh
-    to_port     = var.from_port_ssh
-    protocol    = "tcp"
-    cidr_blocks = var.cidr_blocks_ssh
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "terraform_sg"
-  }
-}
-
-resource "aws_instance" "instance_terraform_a" {
-  ami           = data.aws_ami.ami_ubuntu.id
-  instance_type = var.instance_type
-
-  key_name               = aws_key_pair.terraform_key.id
-  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
-  subnet_id              = aws_subnet.subred_publica_a.id
-  user_data              = file("userdata.tpl")
-
-  root_block_device {
-    volume_size = var.volume_size
-  }
-
-  tags = {
-    Name = var.name_instance_a
-  }
-}
-
-resource "aws_instance" "instance_terraform_b" {
-  ami           = data.aws_ami.ami_ubuntu.id
-  instance_type = var.instance_type
-
-  key_name               = aws_key_pair.terraform_key.id
-  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
-  subnet_id              = aws_subnet.subred_publica_b.id
-  user_data              = file("userdata.tpl")
-
-  root_block_device {
-    volume_size = var.volume_size
-  }
-
-  tags = {
-    Name = var.name_instance_b
+    description = "Acceso al puerto 8080 desde el exterior"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "TCP"
   }
 }
