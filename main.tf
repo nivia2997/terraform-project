@@ -100,7 +100,7 @@ resource "aws_instance" "instance_terraform" {
   }
 
   tags = {
-    Name = var.name_instance
+    Name = var.name_instance_a
   }
 }
 
@@ -118,6 +118,6 @@ resource "aws_instance" "instance_terraform" {
   }
 
   tags = {
-    Name = var.name_instance
+    Name = var.name_instance_b
   }
 }

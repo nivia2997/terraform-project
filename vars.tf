@@ -100,13 +100,13 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "name_instance" {
+variable "name_instance_a" {
   description = "nombre de la etiqueta"
   type        = string
   default     = "primera_instancia"
 }
 
-variable "name_instance" {
+variable "name_instance_b" {
   description = "nombre de la etiqueta"
   type        = string
   default     = "segunda_instancia"
