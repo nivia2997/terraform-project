@@ -1,7 +1,7 @@
 resource "aws_vpc" "test_vpc" {
   cidr_block = var.cidr_block
 
-  
+
   tags = {
     Name = "vpc_proyecto"
   }
@@ -72,5 +72,23 @@ resource "aws_security_group" "terraform_sg" {
 
   tags = {
     Name = "terraform_sg"
+  }
+}
+
+resource "aws_instance" "instance_terraform" {
+  ami           = data.aws_ami.ami_ubuntu.id
+  instance_type = var.instance_type
+
+  key_name               = aws_key_pair.terraform_key.id
+  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
+  subnet_id              = aws_subnet.subred_publica.id
+  user_data              = file("userdata.tpl")
+
+  root_block_device {
+    volume_size = var.volume_size
+  }
+
+  tags = {
+    Name = var.name_instance
   }
 }

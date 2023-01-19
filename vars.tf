@@ -81,3 +81,27 @@ variable "cidr_blocks_ssh" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+variable "key_name" {
+  description = "nombre del key name"
+  type        = string
+  default     = "terraform_key"
+}
+
+variable "instance_type" {
+  description = "tipo de instancia"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "name_instance" {
+  description = "nombre de la etiqueta"
+  type        = string
+  default     = "primera_instancia"
+}
+
+variable "volume_size" {
+  description = "volumen de la instancia"
+  type        = string
+  default     = "10"
+}
