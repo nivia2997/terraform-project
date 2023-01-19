@@ -7,14 +7,25 @@ resource "aws_vpc" "test_vpc" {
   }
 }
 
-resource "aws_subnet" "subred_publica" {
+resource "aws_subnet" "subred_publica_a" {
   vpc_id                  = aws_vpc.test_vpc.id
   cidr_block              = var.cidr_block_subnet
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone
 
   tags = {
-    Name = "subred_publica"
+    Name = "subred_publica_a"
+  }
+}
+
+resource "aws_subnet" "subred_publica_b" {
+  vpc_id                  = aws_vpc.test_vpc.id
+  cidr_block              = var.cidr_block_subnet
+  map_public_ip_on_launch = true
+  availability_zone       = var.availability_zone
+
+  tags = {
+    Name = "subred_publica_b"
   }
 }
 
@@ -81,7 +92,25 @@ resource "aws_instance" "instance_terraform" {
 
   key_name               = aws_key_pair.terraform_key.id
   vpc_security_group_ids = [aws_security_group.terraform_sg.id]
-  subnet_id              = aws_subnet.subred_publica.id
+  subnet_id              = aws_subnet.subred_publica_a.id
+  user_data              = file("userdata.tpl")
+
+  root_block_device {
+    volume_size = var.volume_size
+  }
+
+  tags = {
+    Name = var.name_instance
+  }
+}
+
+resource "aws_instance" "instance_terraform" {
+  ami           = data.aws_ami.ami_ubuntu.id
+  instance_type = var.instance_type
+
+  key_name               = aws_key_pair.terraform_key.id
+  vpc_security_group_ids = [aws_security_group.terraform_sg.id]
+  subnet_id              = aws_subnet.subred_publica_b.id
   user_data              = file("userdata.tpl")
 
   root_block_device {

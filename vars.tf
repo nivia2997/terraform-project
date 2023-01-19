@@ -22,6 +22,12 @@ variable "availability_zone" {
   default     = "us-east-1a"
 }
 
+variable "availability_zone" {
+  description = "eligiendo una zona de disponibilidad"
+  type        = string
+  default     = "us-east-1b"
+}
+
 variable "Name_internet_gateway" {
   description = "asignando un internet gateway"
   type        = string
@@ -100,6 +106,11 @@ variable "name_instance" {
   default     = "primera_instancia"
 }
 
+variable "name_instance" {
+  description = "nombre de la etiqueta"
+  type        = string
+  default     = "segunda_instancia"
+}
 variable "volume_size" {
   description = "volumen de la instancia"
   type        = string
