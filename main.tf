@@ -9,7 +9,7 @@ resource "aws_vpc" "test_vpc" {
 
 resource "aws_subnet" "subred_publica_a" {
   vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = var.cidr_block_subnet
+  cidr_block              = var.cidr_block_subnet_a
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone_a
 
@@ -20,7 +20,7 @@ resource "aws_subnet" "subred_publica_a" {
 
 resource "aws_subnet" "subred_publica_b" {
   vpc_id                  = aws_vpc.test_vpc.id
-  cidr_block              = var.cidr_block_subnet
+  cidr_block              = var.cidr_block_subnet_b
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone_b
 
