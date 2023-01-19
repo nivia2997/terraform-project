@@ -86,7 +86,7 @@ resource "aws_security_group" "terraform_sg" {
   }
 }
 
-resource "aws_instance" "instance_terraform" {
+resource "aws_instance" "instance_terraform_a" {
   ami           = data.aws_ami.ami_ubuntu.id
   instance_type = var.instance_type
 
@@ -104,7 +104,7 @@ resource "aws_instance" "instance_terraform" {
   }
 }
 
-resource "aws_instance" "instance_terraform" {
+resource "aws_instance" "instance_terraform_b" {
   ami           = data.aws_ami.ami_ubuntu.id
   instance_type = var.instance_type
 
