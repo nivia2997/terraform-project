@@ -52,7 +52,12 @@ resource "aws_route" "route_terraform" {
 }
 
 resource "aws_route_table_association" "rt_ass_terraform" {
-  subnet_id      = aws_subnet.subred_publica.id
+  subnet_id      = aws_subnet.subred_publica_a.id
+  route_table_id = aws_route_table.rt_terraform.id
+}
+
+resource "aws_route_table_association" "rt_ass_terraform" {
+  subnet_id      = aws_subnet.subred_publica_b.id
   route_table_id = aws_route_table.rt_terraform.id
 }
 
