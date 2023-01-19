@@ -1,8 +1,8 @@
 resource "aws_vpc" "test_vpc" {
   cidr_block = var.cidr_block
 
- 
-tags = {
+  
+  tags = {
     Name = "vpc_proyecto"
   }
 }
@@ -50,13 +50,13 @@ resource "aws_security_group" "terraform_sg" {
   description = "grupo de seguridad para instancias de subnet publico"
   vpc_id      = aws_vpc.test_vpc.id
 
-ingress {
+  ingress {
     from_port   = var.from_port_http
     to_port     = var.from_port_http
     protocol    = "tcp"
     cidr_blocks = var.ip_http
   }
-ingress {
+  ingress {
     from_port   = var.from_port_ssh
     to_port     = var.from_port_ssh
     protocol    = "tcp"
@@ -70,7 +70,7 @@ ingress {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-tags = {
+  tags = {
     Name = "terraform_sg"
   }
 }
