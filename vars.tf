@@ -16,13 +16,13 @@ variable "cidr_block_subnet" {
   default     = "10.0.1.0/24"
 }
 
-variable "availability_zone" {
+variable "availability_zone_a" {
   description = "eligiendo una zona de disponibilidad"
   type        = string
   default     = "us-east-1a"
 }
 
-variable "availability_zone" {
+variable "availability_zone_b" {
   description = "eligiendo una zona de disponibilidad"
   type        = string
   default     = "us-east-1b"
