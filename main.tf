@@ -51,12 +51,12 @@ resource "aws_route" "route_terraform" {
   gateway_id             = aws_internet_gateway.igw_terraform.id
 }
 
-resource "aws_route_table_association" "rt_ass_terraform" {
+resource "aws_route_table_association" "rt_ass_terraform_a" {
   subnet_id      = aws_subnet.subred_publica_a.id
   route_table_id = aws_route_table.rt_terraform.id
 }
 
-resource "aws_route_table_association" "rt_ass_terraform" {
+resource "aws_route_table_association" "rt_ass_terraform_b" {
   subnet_id      = aws_subnet.subred_publica_b.id
   route_table_id = aws_route_table.rt_terraform.id
 }
